@@ -11,8 +11,8 @@
         updateTotal();
         updateHeader();
 
-        //console.log(cart);
-        //console.log(sessionStorage.getItem("total"));
+        console.log(cart);
+        console.log(localStorage.getItem("total"));
     }
 }
 
@@ -46,23 +46,23 @@ function updateQuantity(cart, product) {
 }
 
 function updateTotal() {
-    var price = 0.0;
+    var price = 0;
     var cart = getCart();
     cart.forEach(item => {
         price += item.price * item.quantity;
     })
 
-    sessionStorage.setItem("total", price);
+    localStorage.setItem("total", price);
 }
 
 function getCart() {
-    var cartValue = sessionStorage.getItem("cart");
+    var cartValue = localStorage.getItem("cart");
     return JSON.parse(cartValue);
 }
 
 function setCart(cart) {
     var jsonStr = JSON.stringify(cart);
-    sessionStorage.setItem("cart", jsonStr);
+    localStorage.setItem("cart", jsonStr);
 }
 
 function updateHeader() {
