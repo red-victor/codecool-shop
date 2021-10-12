@@ -72,15 +72,11 @@ namespace Codecool.CodecoolShop.Controllers
         }
 
         [HttpPost]
-        public async void Checkout(string productsJSON)
+        public async void Checkout(string cart)
         {
-             Console.WriteLine(productsJSON);
-            /*var products = JsonConvert.DeserializeObject<CartModel>(productsJSON);
-            foreach(var product in products.cartItems)
-            {
-                Console.WriteLine(product);
-            }*/
-
+            Console.WriteLine(cart);
+            var cartList = JsonConvert.DeserializeObject<List<CartItem>>(cart);
+            Console.WriteLine(cartList);
         }
     }
 }

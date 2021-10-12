@@ -11,8 +11,8 @@
         updateTotal();
         updateHeader();
 
-        /*console.log(cart);
-        console.log(localStorage.getItem("total"));*/
+        console.log(cart);
+        console.log(localStorage.getItem("total"));
     }
 }
 
@@ -56,6 +56,8 @@ function updateTotal() {
 }
 
 function getCart() {
+    if (localStorage.getItem("cart") === null)
+        setCart([]);
     var cartValue = localStorage.getItem("cart");
     return JSON.parse(cartValue);
 }
