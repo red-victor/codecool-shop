@@ -9,6 +9,7 @@
         var cart = getCart();
         addToCart(cart, product);
         updateTotal();
+        updateHeader();
 
         //console.log(cart);
         //console.log(sessionStorage.getItem("total"));
@@ -62,4 +63,13 @@ function getCart() {
 function setCart(cart) {
     var jsonStr = JSON.stringify(cart);
     sessionStorage.setItem("cart", jsonStr);
+}
+
+function updateHeader() {
+    var itemCount = 0;
+    var cart = getCart();
+    cart.forEach(item => itemCount += item.quantity);
+
+    var header = document.getElementById("cart-header");
+    header.innerHTML = "Cart: " + itemCount;
 }
