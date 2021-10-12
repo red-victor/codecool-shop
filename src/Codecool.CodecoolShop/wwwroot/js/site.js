@@ -7,6 +7,9 @@ import { cartManager } from "./cart.js";
 
 $(document).ready(() => {
 
+    sessionStorage.setItem("total", 0);
+    sessionStorage.setItem("cart", "[]");
+
     $(".add-to-cart").each(function () {
         $(this).on("click", function (event) {
             event.preventDefault();
