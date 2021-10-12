@@ -2,3 +2,16 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+import { cartManager } from "./cart.js";
+
+$(document).ready(() => {
+
+    $(".add-to-cart").each(function () {
+        $(this).on("click", function (event) {
+            event.preventDefault();
+            cartManager.addProductHandler(this);
+        })
+    })
+
+})
