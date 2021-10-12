@@ -11,8 +11,8 @@
         updateTotal();
         updateHeader();
 
-        console.log(cart);
-        console.log(localStorage.getItem("total"));
+        /*console.log(cart);
+        console.log(localStorage.getItem("total"));*/
     }
 }
 

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
+using Newtonsoft.Json;
 
 namespace Codecool.CodecoolShop.Controllers
 {
@@ -68,6 +69,18 @@ namespace Codecool.CodecoolShop.Controllers
         public IActionResult Checkout()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async void Checkout(string productsJSON)
+        {
+             Console.WriteLine(productsJSON);
+            /*var products = JsonConvert.DeserializeObject<CartModel>(productsJSON);
+            foreach(var product in products.cartItems)
+            {
+                Console.WriteLine(product);
+            }*/
+
         }
     }
 }
