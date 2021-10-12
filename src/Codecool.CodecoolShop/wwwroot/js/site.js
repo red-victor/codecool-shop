@@ -3,9 +3,11 @@
 
 // Write your JavaScript code.
 
-import { cartManager } from "./cart.js";
+import { cartManager, updateHeader } from "./cart.js";
 
 $(document).ready(() => {
+    updateHeader();
+
     $(".add-to-cart").each(function () {
         $(this).on("click", function (event) {
             event.preventDefault();
@@ -19,7 +21,7 @@ $(document).ready(() => {
 
         $.ajax({
             type: "POST",
-            url: "/Product/Checkout",
+            url: "/Product/CheckoutJSON",
             data: { "cart": cart},
             dataType: "json",
             success: function (response) {

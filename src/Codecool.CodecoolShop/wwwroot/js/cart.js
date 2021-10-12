@@ -67,7 +67,7 @@ function setCart(cart) {
     localStorage.setItem("cart", jsonStr);
 }
 
-function updateHeader() {
+export function updateHeader() {
     var itemCount = 0;
     var cart = getCart();
     cart.forEach(item => itemCount += item.quantity);
