@@ -16,7 +16,6 @@ $(document).ready(() => {
     });
 
     $("#cart-link").on("click", function () {
-        console.log("clicked");
         var cart = localStorage.getItem("cart");
 
         $.ajax({
@@ -25,17 +24,12 @@ $(document).ready(() => {
             data: { "cart": cart},
             dataType: "json",
             success: function (response) {
-                if (response != null) {
-                    alert("Name : " + response.Name + ", Designation : " + response.Designation + ", Location :" + response.Location);
-                } else {
-                    alert("Something went wrong");
+                if (response.success) {
+                    window.location.replace("/Product/Checkout");
                 }
             },
-            failure: function (response) {
-                alert(response.responseText);
-            },
             error: function (response) {
-                alert(response.responseText);
+                alert("error!"); 
             }
         });
     })
