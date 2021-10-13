@@ -44,7 +44,7 @@ a.navbar-brand {
 
 /* --------------- Hero ---------------- */
 .hero {
-    min-height: calc(100vh - 60px);
+    min-height: calc(100vh - 55px);
     background: url("../img/devices.jpg") center no-repeat;
     display: flex;
     align-items: center;
