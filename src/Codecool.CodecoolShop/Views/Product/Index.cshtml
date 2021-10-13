@@ -17,18 +17,63 @@
     </div>
     <div class="products-center">
         @foreach (var element in Model)
-    {
-        <article class="product">
-            <div class="img-container">
-                <img src="../../img/@(element.Name).jpg" alt="product" class="product-img" />
-                <button class="btn btn-primary add-to-cart" data-id="@element.Id" data-name="@element.Name" data-price="@element.DefaultPrice">
-                    <i class="fas fa-shopping-cart"></i>
-                    add to cart
-                </button>
-            </div>
-            <h3>@element.Name</h3>
-            <h4>@element.DefaultPrice.ToString("C2")</h4>
-        </article>
-    }
+        {
+            <article class="product">
+                <div class="img-container">
+                    <img src="../../img/@(element.Name).jpg" alt="product" class="product-img" />
+                    <button class="btn btn-primary add-to-cart" data-id="@element.Id" data-name="@element.Name" data-price="@element.DefaultPrice">
+                        <i class="fas fa-shopping-cart"></i>
+                        add to cart
+                    </button>
+                </div>
+                <h3>@element.Name</h3>
+                <h4>@element.DefaultPrice.ToString("C2")</h4>
+            </article>
+        }
+
+        @foreach (var element in Model)
+        {
+            <article class="product">
+                <div class="img-container">
+                    <img src="../../img/@(element.Name).jpg" alt="product" class="product-img" />
+                    <button class="btn btn-primary add-to-cart" data-id="@element.Id" data-name="@element.Name" data-price="@element.DefaultPrice">
+                        <i class="fas fa-shopping-cart"></i>
+                        add to cart
+                    </button>
+                </div>
+                <h3>@element.Name</h3>
+                <h4>@element.DefaultPrice.ToString("C2")</h4>
+            </article>
+        }
+
+        @foreach (var element in Model)
+        {
+            <article class="product">
+                <div class="img-container">
+                    <img src="../../img/@(element.Name).jpg" alt="product" class="product-img" />
+                    <button class="btn btn-primary add-to-cart" data-id="@element.Id" data-name="@element.Name" data-price="@element.DefaultPrice">
+                        <i class="fas fa-shopping-cart"></i>
+                        add to cart
+                    </button>
+                </div>
+                <h3>@element.Name</h3>
+                <h4>@element.DefaultPrice.ToString("C2")</h4>
+            </article>
+        }
+
+        @foreach (var element in Model)
+        {
+            <article class="product">
+                <div class="img-container">
+                    <img src="../../img/@(element.Name).jpg" alt="product" class="product-img" />
+                    <button class="btn btn-primary add-to-cart" data-id="@element.Id" data-name="@element.Name" data-price="@element.DefaultPrice">
+                        <i class="fas fa-shopping-cart"></i>
+                        add to cart
+                    </button>
+                </div>
+                <h3>@element.Name</h3>
+                <h4>@element.DefaultPrice.ToString("C2")</h4>
+            </article>
+        }
     </div>
 </section>
