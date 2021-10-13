@@ -1,8 +1,12 @@
 ﻿using Codecool.CodecoolShop.Models;
+using System.Collections.Generic;
 
 namespace Codecool.CodecoolShop.Daos
 {
-    public interface ICartDao : IDao<Product>
+    public interface ICartDao
     {
+        void SaveCart(List<CartItem> cart);
+
+        List<CartItem> GetProducts();
     }
 }

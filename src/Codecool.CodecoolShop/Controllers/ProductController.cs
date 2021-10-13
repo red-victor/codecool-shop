@@ -68,7 +68,22 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Checkout()
         {
-            return View();
+            ICartDao cartDataStore = CartDaoMemory.GetInstance();
+            var cartData = cartDataStore.GetProducts();
+
+            IProductDao productDataStore = ProductDaoMemory.GetInstance();
+
+            var checkoutViewModel = new CheckoutViewModel();
+
+            foreach( var product in cartData)
+            {
+                var newCheckoutItem = new CheckoutItem();
+                newCheckoutItem.Product = productDataStore.Get(product.Id);
+                newCheckoutItem.Quantity = product.Quantity;
+                checkoutViewModel.CheckoutItems.Add(newCheckoutItem);
+            }
+
+            return View(checkoutViewModel);
         }
 
         [HttpPost]
@@ -78,6 +93,10 @@ namespace Codecool.CodecoolShop.Controllers
             Console.WriteLine(payload);
             var cartList = JsonConvert.DeserializeObject<List<CartItem>>(payload);
             Console.WriteLine(cartList);
+
+            ICartDao cartDataStore = CartDaoMemory.GetInstance();
+            cartDataStore.SaveCart(cartList);
+
             return Json(new { success = true, responseText = "Data sent" });
         }
     }

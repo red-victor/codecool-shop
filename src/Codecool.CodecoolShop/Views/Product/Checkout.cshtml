@@ -3,6 +3,24 @@
     <script type="module" src="~/js/checkout.js"></script>
 }
 
+@model Codecool.CodecoolShop.Models.CheckoutViewModel
+
 <h1>Succes</h1>
 
-<div id="items"></div>
+<div id="items">
+
+    @foreach (var product in Model.CheckoutItems)
+    {
+    <article class="product">
+        <div class="img-container">
+            <img src="../../img/@(product.Product.Name).jpg" alt="product" class="product-img" />
+        </div>
+        <h3>@product.Product.Name</h3>
+        <h3>@product.Quantity</h3>
+        <h3>Sum: @product.Sum</h3>
+        <h4>@product.Product.DefaultPrice.ToString("C2")</h4>
+    </article>
+    }
+
+    <h2>@Model.Total</h2>
+</div>

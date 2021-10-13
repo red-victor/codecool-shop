@@ -8,7 +8,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class CartDaoMemory : ICartDao
     {
-        private List<Product> data = new List<Product>();
+        private List<CartItem> data = new List<CartItem>();
         private static CartDaoMemory instance = null;
 
         private CartDaoMemory()
@@ -25,25 +25,35 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             return instance;
         }
 
-        public void Add(Product item)
+        public void SaveCart(List<CartItem> cartList)
         {
-            item.Id = data.Count + 1;
-            data.Add(item);
+            data = cartList;
         }
 
-        public void Remove(int id)
-        {
-            data.Remove(this.Get(id));
-        }
-
-        public Product Get(int id)
-        {
-            return data.Find(x => x.Id == id);
-        }
-
-        public IEnumerable<Product> GetAll()
+        public List<CartItem> GetProducts()
         {
             return data;
         }
+
+        //public void Add(Product item)
+        //{
+        //    item.Id = data.Count + 1;
+        //    //data.Add(item);
+        //}
+
+        //public void Remove(int id)
+        //{
+        //    //data.Remove(this.Get(id));
+        //}
+
+        //public CartItem Get(int id)
+        //{
+        //    return data.Find(match: x => x.Id == id);
+        //}
+
+        //public IEnumerable<Product> GetAll()
+        //{
+        //    return (IEnumerable<Product>)data;
+        //}
     }
 }

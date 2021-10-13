@@ -49,7 +49,7 @@ namespace Codecool.CodecoolShop.Services
 
         public void AddToCart(Product product)
         {
-            cartDao.Add(product);
+            //cartDao.Add(product);
         }
     }
 }
