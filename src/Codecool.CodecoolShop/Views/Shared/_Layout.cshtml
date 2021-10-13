@@ -6,6 +6,8 @@
     <title>@ViewData["Title"] - Codecool.CodecoolShop</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
 <body>
     <header>
@@ -24,10 +26,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item" id="cart-link">
+                        @*<li class="nav-item" id="cart-link">
                             <p class="nav-link text-dark" id="cart-header">Cart: 0</p>
-                        </li>
+                        </li>*@
                     </ul>
+                </div>
+                <div class="cart-btn float-right">
+                    <span class="nav-icon"><i class="fas fa-cart-plus"></i></span>
+                    <div class="cart-items">0</div>
                 </div>
             </div>
         </nav>
@@ -35,6 +41,21 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+
+
+            <div class="cart-overlay">
+                <div class="cart">
+                    <span class="close-cart">
+                        <i class="fas fa-window-close"></i>
+                    </span>
+                    <h2>your cart</h2>
+                    <div class="cart-content"></div>
+                    <div class="cart-footer">
+                        <h3>your total: $ <span class="cart-total">0</span> </h3>
+                        <button class="clear-cart banner-btn">clear cart</button>
+                    </div>
+                </div>
+            </div>
         </main>
     </div>
 
