@@ -110,10 +110,9 @@ class UI {
                 var cart = LocalStorage.getCart();
                 let id = event.target.dataset.id;
                 let item = LocalStorage.getProduct(id);
-                if (item.quantity == 1) {
+                if (item.quantity == 1) 
                     this.removeItem(id);
-                    this.hideCart();
-                } else {
+                else {
                     LocalStorage.decreaseQuantity(cart, item);
                 }                
             }
@@ -148,6 +147,7 @@ class UI {
         LocalStorage.addToCart(product);
         this.populateCart();
         this.setCartValues();
+        this.showCart();
     }
 
     setCartValues() {

@@ -15,10 +15,24 @@ for details on configuring this project to bundle and minify static web assets. 
     box-sizing: border-box;
 }
 
+html {
+    font-size: 14px;
+    position: relative;
+    min-height: 100%;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
 body {
     color: var(--mainBlack);
     background: var(--mainWhite);
     font-family: "Lato", sans-serif;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 
 a.navbar-brand {
@@ -26,6 +40,49 @@ a.navbar-brand {
   text-align: center;
   word-break: break-all;
 }
+
+
+/* --------------- Hero ---------------- */
+.hero {
+    min-height: calc(100vh - 60px);
+    background: url("../img/devices.jpg") center no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.banner {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.8);
+    display: inline-block;
+    padding: 2rem;
+}
+
+.banner-title {
+    font-size: 3.4rem;
+    text-transform: uppercase;
+    letter-spacing: var(--mainSpacing);
+    margin-bottom: 3rem;
+}
+
+.banner-btn {
+    padding: 1rem 3rem;
+    text-transform: uppercase;
+    letter-spacing: var(--mainSpacing);
+    font-size: 1rem;
+    background: var(--primaryColor);
+    color: var(--mainBlack);
+    border: 1px solid var(--primaryColor);
+    transition: var(--mainTransition);
+    cursor: pointer;
+}
+
+    .banner-btn:hover {
+        background: transparent;
+        color: var(--primaryColor);
+    }
+/* --------------- End of Hero ---------------- */
+
 
 /* Provide sufficient contrast against white background */
 a {
@@ -46,14 +103,7 @@ a {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
+
 
 .border-top {
   border-top: 1px solid #e5e5e5;
@@ -73,15 +123,7 @@ button.accept-policy {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
 
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
 .footer {
   position: absolute;
   bottom: 0;

@@ -4,7 +4,14 @@
 
 @model List<Codecool.CodecoolShop.Models.Product>
 
-<div class="container">
+    <div class="hero">
+        <div class="banner">
+            <h1 class="banner-title">Let's go shopping</h1>
+            <a href="#prods" class="banner-btn">shop now</a>
+        </div>
+    </div>
+
+<div class="container" id="prods">
     @foreach (var element in Model)
     {
         <div class="col-lg-3 col-lg-3" style="display: inline-block; max-width: 350px; height: 350px">
