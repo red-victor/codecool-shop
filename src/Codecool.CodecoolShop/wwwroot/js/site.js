@@ -73,10 +73,17 @@ class LocalStorage {
 
 class UI {
     setUpAddToCartButtons() {
+        document.addEventListener('keydown', this.onEscPress.bind(this), false);
         const buttons = [...document.querySelectorAll(".add-to-cart")];
         buttons.forEach(button => {
             button.addEventListener("click", () => this.addProductHandler(event.target))
         });
+    }
+
+    onEscPress(event) {
+        console.log(cartOverlay);
+        if (event.key == "Escape" && cartOverlay.classList.contains("transparentBcg"))
+            this.hideCart();
     }
 
     setupApp() {
