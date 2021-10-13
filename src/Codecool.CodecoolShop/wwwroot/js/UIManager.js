@@ -1,8 +1,10 @@
 ﻿import { LocalStorage } from "./localStorageHandler.js";
+import { dataHandler } from "./dataHandler.js";
 
 const cartBtn = document.querySelector(".cart-btn");
 const closeCartBtn = document.querySelector(".close-cart");
-const clearCartBtn = document.querySelector(".clear-cart")
+const clearCartBtn = document.querySelector(".clear-cart");
+const checkoutCartBtn = document.querySelector(".checkout-cart");
 const cartDOM = document.querySelector(".cart");
 const cartOverlay = document.querySelector(".cart-overlay");
 const cartItems = document.querySelector(".cart-items");
@@ -36,6 +38,8 @@ export class UI {
     cartLogic() {
         clearCartBtn.addEventListener("click", () => this.clearCart());
 
+        checkoutCartBtn.addEventListener("click", () => this.checkoutCart());
+
         cartOverlay.addEventListener("click", (event) => {
             if (event.target.classList.contains("transparentBcg"))
                 this.hideCart();
@@ -68,11 +72,16 @@ export class UI {
     }
 
     clearCart() {
-        console.log("pls fix clearing the cart");
         localStorage.removeItem("cart");
         this.hideCart();
         this.populateCart();
         this.setCartValues();
+    }
+
+    async checkoutCart() {
+        var cart = localStorage.getItem("cart");
+        var checkoutResponse = await dataHandler.checkoutCart(cart);
+        console.log(await checkoutResponse);
     }
 
     removeItem(id) {
