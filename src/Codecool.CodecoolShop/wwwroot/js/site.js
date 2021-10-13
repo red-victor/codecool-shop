@@ -106,8 +106,6 @@ class UI {
                 let id = event.target.dataset.id;
                 let item = LocalStorage.getProduct(id);
                 LocalStorage.updateQuantity(cart, item)
-                this.setCartValues();
-                this.populateCart();
             } else if (event.target.classList.contains("fa-chevron-down")) {
                 var cart = LocalStorage.getCart();
                 let id = event.target.dataset.id;
@@ -118,9 +116,10 @@ class UI {
                 } else {
                     LocalStorage.decreaseQuantity(cart, item);
                 }                
-                this.setCartValues();
-                this.populateCart();
             }
+
+            this.setCartValues();
+            this.populateCart();
         })
     }
 
@@ -136,8 +135,6 @@ class UI {
         var cart = LocalStorage.getCart();
         cart = cart.filter(item => item.id != id)
         LocalStorage.saveCart(cart);
-        this.setCartValues();
-        this.populateCart();
     }
 
     addProductHandler(doc) {
