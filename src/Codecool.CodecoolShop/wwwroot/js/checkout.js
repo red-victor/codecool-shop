@@ -3,7 +3,7 @@ var stripe = Stripe("pk_test_Q86cB2YiaYS7RWeVDBHtbFEU00Ocp7Mmdr");
 
 // The items the customer wants to buy
 var purchase = {
-    items: [{ id: "xl-tshirt" }]
+    items: JSON.parse(localStorage.getItem("cart"))
 };
 
 // Disable the button until we have Stripe set up on the page
