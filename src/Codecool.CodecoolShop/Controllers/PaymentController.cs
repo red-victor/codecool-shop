@@ -34,7 +34,7 @@ namespace Codecool.CodecoolShop.Controllers
                 Amount = CalculateOrderAmount(request.Items),
                 Currency = "usd",
             });
-            return Json(new { clientSecret = paymentIntent.ClientSecret });
+            return Json(new { clientSecret = paymentIntent.ClientSecret, stripeResponseStatusCode = paymentIntent.StripeResponse.StatusCode });
         }
         private int CalculateOrderAmount(CartItem[] items)
         {

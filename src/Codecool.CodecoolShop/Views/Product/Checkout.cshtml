@@ -31,17 +31,6 @@
 </h2>
 </div>
 
-@*<form asp-action="Charge" asp-controller="Product" method="post">
-        <article>
-            <label>Amount: $5.00</label>
-        </article>
-        <script src="//checkout.stripe.com/v2/checkout.js"
-                class="stripe-button"
-                data-key="@Stripe.Value.PublishableKey"
-                data-locale="auto"
-                data-description="sample charge"
-                data-amount="500"></script>
-    </form>*@
 
 <form id="payment-form">
     <div id="card-element"><!--Stripe.js injects the Card Element--></div>
