@@ -7,6 +7,10 @@
         localStorage.setItem("cart", JSON.stringify(cart));
     }
 
+    static emptyCart() {
+        localStorage.setItem("cart", []);
+    }
+
     static getProduct(id) {
         let cart = JSON.parse(localStorage.getItem("cart"));
         return cart.find(product => product.id == id);

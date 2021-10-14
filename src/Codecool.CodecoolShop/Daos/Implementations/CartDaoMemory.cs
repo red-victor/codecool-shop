@@ -29,6 +29,10 @@ namespace Codecool.CodecoolShop.Daos.Implementations
         {
             data = cartList;
         }
+        public void EmptyCart()
+        {
+            data = new List<CartItem>();
+        }
 
         public List<CartItem> GetProducts()
         {

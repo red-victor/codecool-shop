@@ -1,4 +1,5 @@
-﻿using Codecool.CodecoolShop.Daos.Implementations;
+﻿using Codecool.CodecoolShop.Daos;
+using Codecool.CodecoolShop.Daos.Implementations;
 using Codecool.CodecoolShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -36,6 +37,7 @@ namespace Codecool.CodecoolShop.Controllers
             });
             return Json(new { clientSecret = paymentIntent.ClientSecret, stripeResponseStatusCode = paymentIntent.StripeResponse.StatusCode });
         }
+
         private int CalculateOrderAmount(CartItem[] items)
         {
             float sum = 0;

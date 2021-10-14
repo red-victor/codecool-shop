@@ -1,6 +1,9 @@
 ﻿export let dataHandler = {
     checkoutCart: async function (cart) {
-        return await apiPost("/api/checkout", cart);
+        return await apiPost("/api/checkout", cart, "/Product/Checkout");
+    },
+    saveOrder: async function (cart) {
+        return await apiPost("/api/saveOrder", cart, "/Product/OrderDetails");
     }
 }
 
@@ -17,7 +20,7 @@
 //    }
 //}
 
-async function apiPost(url, payload) {
+async function apiPost(url, payload, redirectURL) {
     $.ajax({
         type: "POST",
         url: url,
@@ -25,7 +28,7 @@ async function apiPost(url, payload) {
         dataType: "json",
         success: function (response) {
             if (response.success) {
-                window.location.replace("/Product/Checkout");
+                window.location.replace(redirectURL);
             }
         },
         error: function (response) {

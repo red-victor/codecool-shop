@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -91,14 +92,42 @@ namespace Codecool.CodecoolShop.Controllers
         [Route("api/checkout")]
         public JsonResult CheckoutJSON(string payload)
         {
-            Console.WriteLine(payload);
             var cartList = JsonConvert.DeserializeObject<List<CartItem>>(payload);
-            Console.WriteLine(cartList);
-
             ICartDao cartDataStore = CartDaoMemory.GetInstance();
             cartDataStore.SaveCart(cartList);
 
             return Json(new { success = true, responseText = "Data sent" });
+        }
+
+        public IActionResult OrderDetails()
+        {
+            ICartDao cartDataStore = CartDaoMemory.GetInstance();
+            var cartData = cartDataStore.GetProducts();
+            cartDataStore.EmptyCart();
+
+            IProductDao productDataStore = ProductDaoMemory.GetInstance();
+
+            var checkoutViewModel = new CheckoutViewModel();
+
+            foreach (var product in cartData)
+            {
+                var newCheckoutItem = new CheckoutItem();
+                newCheckoutItem.Product = productDataStore.Get(product.Id);
+                newCheckoutItem.Quantity = product.Quantity;
+                checkoutViewModel.CheckoutItems.Add(newCheckoutItem);
+            }
+
+            return View(checkoutViewModel);
+        }
+
+        [HttpPost]
+        [Route("api/saveOrder")]
+        public JsonResult OrderDetailsJSON(string payload)
+        {
+            string workingDirectory = Environment.CurrentDirectory;
+            System.IO.File.WriteAllText($"{workingDirectory}\\OrderLogs\\order.json", payload);
+
+            return Json(new { success = true, responseText = "Data saved" });
         }
     }
 }

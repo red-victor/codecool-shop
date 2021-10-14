@@ -9,4 +9,8 @@
     <PackageReference Include="Stripe.net" Version="39.73.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="OrderLogs\" />
+  </ItemGroup>
+
 </Project>

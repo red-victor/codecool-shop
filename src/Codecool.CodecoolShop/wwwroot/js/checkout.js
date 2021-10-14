@@ -1,4 +1,6 @@
-﻿// A reference to Stripe.js initialized with your real test publishable API key.
+﻿import { dataHandler } from "./dataHandler.js";
+
+// A reference to Stripe.js initialized with your real test publishable API key.
 var stripe = Stripe("pk_test_Q86cB2YiaYS7RWeVDBHtbFEU00Ocp7Mmdr");
 
 // The items the customer wants to buy
@@ -74,6 +76,10 @@ var payWithCard = function (stripe, card, clientSecret) {
             } else {
                 // The payment succeeded!
                 orderComplete(result.paymentIntent.id);
+                dataHandler.saveOrder(localStorage.getItem("cart"))
+                    .then(() => {
+                        localStorage.setItem("cart", []);
+                    });
             }
         });
 };

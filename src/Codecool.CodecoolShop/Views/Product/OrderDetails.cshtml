@@ -1,0 +1,22 @@
+﻿@using Microsoft.Extensions.Options
+
+@model Codecool.CodecoolShop.Models.CheckoutViewModel
+
+<h1>Order Details</h1>
+
+<div id="items">
+
+    @foreach (var product in Model.CheckoutItems)
+    {
+        <article class="product">
+            <h3>@product.Product.Name</h3>
+            <h3>@product.Quantity</h3>
+            <h3>Sum: @product.Sum</h3>
+            <h4>@product.Product.DefaultPrice.ToString("C2")</h4>
+        </article><br>
+    }
+
+    <h2>
+        @Model.Total
+    </h2>
+</div>

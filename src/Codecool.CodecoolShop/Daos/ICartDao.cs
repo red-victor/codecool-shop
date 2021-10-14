@@ -6,6 +6,7 @@ namespace Codecool.CodecoolShop.Daos
     public interface ICartDao
     {
         void SaveCart(List<CartItem> cart);
+        void EmptyCart();
 
         List<CartItem> GetProducts();
     }
