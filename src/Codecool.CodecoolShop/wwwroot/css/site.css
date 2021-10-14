@@ -364,24 +364,13 @@ button.accept-policy {
 
 
 /* Stripe form */
-form {
+#payment-form {
     width: 30vw;
     min-width: 500px;
     align-self: center;
     box-shadow: 0px 0px 0px 0.5px rgba(50, 50, 93, 0.1), 0px 2px 5px 0px rgba(50, 50, 93, 0.1), 0px 1px 1.5px 0px rgba(0, 0, 0, 0.07);
     border-radius: 7px;
     padding: 40px;
-}
-
-input {
-    border-radius: 6px;
-    margin-bottom: 6px;
-    padding: 12px;
-    border: 1px solid rgba(50, 50, 93, 0.1);
-    height: 44px;
-    font-size: 16px;
-    width: 100%;
-    background: white;
 }
 
 .result-message {
@@ -421,7 +410,7 @@ input {
 }
 
 /* Buttons and links */
-button {
+#stripe-submit-button {
     background: #5469d4;
     color: #ffffff;
     font-family: Arial, sans-serif;
@@ -437,23 +426,23 @@ button {
     width: 100%;
 }
 
-    button:hover {
-        filter: contrast(115%);
-    }
+#stripe-submit-button:hover {
+    filter: contrast(115%);
+}
 
-    button:disabled {
-        opacity: 0.5;
-        cursor: default;
-    }
+#stripe-submit-button:disabled {
+    opacity: 0.5;
+    cursor: default;
+}
 
 /* spinner/processing state, errors */
-.spinner,
-.spinner:before,
-.spinner:after {
+.stripe-spinner,
+.stripe-spinner:before,
+.stripe-spinner:after {
     border-radius: 50%;
 }
 
-.spinner {
+.stripe-spinner {
     color: #ffffff;
     font-size: 22px;
     text-indent: -99999px;
@@ -467,37 +456,37 @@ button {
     transform: translateZ(0);
 }
 
-    .spinner:before,
-    .spinner:after {
-        position: absolute;
-        content: "";
-    }
+.stripe-spinner:before,
+.stripe-spinner:after {
+    position: absolute;
+    content: "";
+}
 
-    .spinner:before {
-        width: 10.4px;
-        height: 20.4px;
-        background: #5469d4;
-        border-radius: 20.4px 0 0 20.4px;
-        top: -0.2px;
-        left: -0.2px;
-        -webkit-transform-origin: 10.4px 10.2px;
-        transform-origin: 10.4px 10.2px;
-        -webkit-animation: loading 2s infinite ease 1.5s;
-        animation: loading 2s infinite ease 1.5s;
-    }
+.stripe-spinner:before {
+    width: 10.4px;
+    height: 20.4px;
+    background: #5469d4;
+    border-radius: 20.4px 0 0 20.4px;
+    top: -0.2px;
+    left: -0.2px;
+    -webkit-transform-origin: 10.4px 10.2px;
+    transform-origin: 10.4px 10.2px;
+    -webkit-animation: loading 2s infinite ease 1.5s;
+    animation: loading 2s infinite ease 1.5s;
+}
 
-    .spinner:after {
-        width: 10.4px;
-        height: 10.2px;
-        background: #5469d4;
-        border-radius: 0 10.2px 10.2px 0;
-        top: -0.1px;
-        left: 10.2px;
-        -webkit-transform-origin: 0px 10.2px;
-        transform-origin: 0px 10.2px;
-        -webkit-animation: loading 2s infinite ease;
-        animation: loading 2s infinite ease;
-    }
+.stripe-spinner:after {
+    width: 10.4px;
+    height: 10.2px;
+    background: #5469d4;
+    border-radius: 0 10.2px 10.2px 0;
+    top: -0.1px;
+    left: 10.2px;
+    -webkit-transform-origin: 0px 10.2px;
+    transform-origin: 0px 10.2px;
+    -webkit-animation: loading 2s infinite ease;
+    animation: loading 2s infinite ease;
+}
 
 @-webkit-keyframes loading {
     0% {

@@ -7,7 +7,7 @@ var purchase = {
 };
 
 // Disable the button until we have Stripe set up on the page
-document.querySelector("button").disabled = true;
+document.querySelector("#stripe-submit-button").disabled = true;
 fetch("/create-payment-intent", {
     method: "POST",
     headers: {
@@ -20,7 +20,7 @@ fetch("/create-payment-intent", {
     })
     .then(function (data) {
         var elements = stripe.elements();
-
+        console.log(data);
         var style = {
             base: {
                 color: "#32325d",
@@ -40,11 +40,11 @@ fetch("/create-payment-intent", {
 
         var card = elements.create("card", { style: style });
         // Stripe injects an iframe into the DOM
-        card.mount("#card-element");
+        card.mount("#stripe-card-element");
 
         card.on("change", function (event) {
             // Disable the Pay button if there are no card details in the Element
-            document.querySelector("button").disabled = event.empty;
+            document.querySelector("#stripe-submit-button").disabled = event.empty;
             document.querySelector("#card-error").textContent = event.error ? event.error.message : "";
         });
 
@@ -90,7 +90,7 @@ var orderComplete = function (paymentIntentId) {
             "https://dashboard.stripe.com/test/payments/" + paymentIntentId
         );
     document.querySelector(".result-message").classList.remove("hidden");
-    document.querySelector("button").disabled = true;
+    document.querySelector("#stripe-submit-button").disabled = true;
 };
 
 // Show the customer the error from Stripe if their card fails to charge
@@ -107,12 +107,12 @@ var showError = function (errorMsgText) {
 var loading = function (isLoading) {
     if (isLoading) {
         // Disable the button and show a spinner
-        document.querySelector("button").disabled = true;
-        document.querySelector("#spinner").classList.remove("hidden");
+        document.querySelector("#stripe-submit-button").disabled = true;
+        document.querySelector("#stripe-spinner").classList.remove("hidden");
         document.querySelector("#button-text").classList.add("hidden");
     } else {
-        document.querySelector("button").disabled = false;
-        document.querySelector("#spinner").classList.add("hidden");
+        document.querySelector("#stripe-submit-button").disabled = false;
+        document.querySelector("#stripe-spinner").classList.add("hidden");
         document.querySelector("#button-text").classList.remove("hidden");
     }
 };
