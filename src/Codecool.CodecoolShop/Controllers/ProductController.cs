@@ -12,6 +12,7 @@ using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
 using Newtonsoft.Json;
 using Stripe;
+using Microsoft.AspNetCore.Http;
 
 namespace Codecool.CodecoolShop.Controllers
 {
@@ -32,6 +33,15 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Index()
         {
+            var cookieUserId = Request.Cookies["userId"];
+            if (cookieUserId == null)
+            {
+                CookieOptions option = new CookieOptions();
+                option.Expires = DateTime.Now.AddDays(1);
+                var userUUId = Util.GenerateID();
+                Response.Cookies.Append("userId", userUUId, option);
+            }
+
             var products = ProductService.GetAllProducts();
             return View(products.ToList());
         }
