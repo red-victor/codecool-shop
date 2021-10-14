@@ -1,4 +1,5 @@
-﻿using Codecool.CodecoolShop.Models;
+﻿using Codecool.CodecoolShop.Daos.Implementations;
+using Codecool.CodecoolShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Stripe;
@@ -13,6 +14,17 @@ namespace Codecool.CodecoolShop.Controllers
     [ApiController]
     public class PaymentController : Controller
     {
+        public Services.ProductService ProductService { get; set; }
+
+        public PaymentController()
+        {
+            ProductService = new Services.ProductService(
+                ProductDaoMemory.GetInstance(),
+                ProductCategoryDaoMemory.GetInstance(),
+                SupplierDaoMemory.GetInstance(),
+                CartDaoMemory.GetInstance());
+        }
+
         [HttpPost]
         public ActionResult Create(PaymentIntentCreateRequest request)
         {
@@ -26,10 +38,12 @@ namespace Codecool.CodecoolShop.Controllers
         }
         private int CalculateOrderAmount(CartItem[] items)
         {
-            // Replace this constant with a calculation of the order's amount
-            // Calculate the order total on the server to prevent
-            // people from directly manipulating the amount on the client
-            return 1400;
+            float sum = 0;
+
+            foreach(var item in items)
+               sum += item.Price * item.Quantity;
+            
+            return (int)((Math.Round(sum * 100f) / 100f) * 100);
         }
         
         public class PaymentIntentCreateRequest
