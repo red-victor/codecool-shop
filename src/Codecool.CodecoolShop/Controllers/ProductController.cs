@@ -100,36 +100,5 @@ namespace Codecool.CodecoolShop.Controllers
 
             return Json(new { success = true, responseText = "Data sent" });
         }
-
-        public IActionResult Charge(string stripeEmail, string stripeToken)
-        {
-            var customers = new CustomerService();
-            var charges = new ChargeService();
-
-            var customerCreateOptions = new CustomerCreateOptions
-            {
-                Email = stripeEmail,
-                Source = stripeToken
-            };
-
-            var customer = customers.Create(customerCreateOptions);
-
-            var chargeCreateOptions = new ChargeCreateOptions
-            {
-                Amount = 500,
-                Description = "Test Payment",
-                Currency = "usd",
-                Customer = customer.Id,
-            };
-
-            var charge = charges.Create(chargeCreateOptions);
-
-            if (charge.Status == "succeeded")
-            {
-                string balanceTransactionId = charge.BalanceTransactionId;
-            }
-
-            return View();
-        }
     }
 }
