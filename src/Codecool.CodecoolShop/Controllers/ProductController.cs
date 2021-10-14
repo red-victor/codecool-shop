@@ -10,18 +10,19 @@ using Microsoft.Extensions.Logging;
 using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
 using Newtonsoft.Json;
+using Stripe;
 
 namespace Codecool.CodecoolShop.Controllers
 {
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> _logger;
-        public ProductService ProductService { get; set; }
+        public Services.ProductService ProductService { get; set; }
 
         public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
-            ProductService = new ProductService(
+            ProductService = new Services.ProductService(
                 ProductDaoMemory.GetInstance(),
                 ProductCategoryDaoMemory.GetInstance(),
                 SupplierDaoMemory.GetInstance(),
@@ -98,6 +99,37 @@ namespace Codecool.CodecoolShop.Controllers
             cartDataStore.SaveCart(cartList);
 
             return Json(new { success = true, responseText = "Data sent" });
+        }
+
+        public IActionResult Charge(string stripeEmail, string stripeToken)
+        {
+            var customers = new CustomerService();
+            var charges = new ChargeService();
+
+            var customerCreateOptions = new CustomerCreateOptions
+            {
+                Email = stripeEmail,
+                Source = stripeToken
+            };
+
+            var customer = customers.Create(customerCreateOptions);
+
+            var chargeCreateOptions = new ChargeCreateOptions
+            {
+                Amount = 500,
+                Description = "Test Payment",
+                Currency = "usd",
+                Customer = customer.Id,
+            };
+
+            var charge = charges.Create(chargeCreateOptions);
+
+            if (charge.Status == "succeeded")
+            {
+                string balanceTransactionId = charge.BalanceTransactionId;
+            }
+
+            return View();
         }
     }
 }

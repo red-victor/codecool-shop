@@ -1,6 +1,10 @@
-﻿@section Scripts
+﻿@using Microsoft.Extensions.Options
+@inject IOptions<Codecool.CodecoolShop.Data.StripeSettings> Stripe
+
+@section Scripts
 {
     <script type="module" src="~/js/checkout.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
 }
 
 @model Codecool.CodecoolShop.Models.CheckoutViewModel
@@ -11,16 +15,27 @@
 
     @foreach (var product in Model.CheckoutItems)
     {
-    <article class="product">
-        <div class="img-container">
-            <img src="../../img/@(product.Product.Name).jpg" alt="product" class="product-img" />
-        </div>
-        <h3>@product.Product.Name</h3>
-        <h3>@product.Quantity</h3>
-        <h3>Sum: @product.Sum</h3>
-        <h4>@product.Product.DefaultPrice.ToString("C2")</h4>
-    </article>
+        <article class="product">
+            <div class="img-container">
+                <img src="../../img/@(product.Product.Name).jpg" alt="product" class="product-img" />
+            </div>
+            <h3>@product.Product.Name</h3>
+            <h3>@product.Quantity</h3>
+            <h3>Sum: @product.Sum</h3>
+            <h4>@product.Product.DefaultPrice.ToString("C2")</h4>
+        </article>
     }
 
     <h2>@Model.Total</h2>
+    <form asp-action="Charge" asp-controller="Product" method="post">
+            <article>
+                <label>Amount: $5.00</label>
+            </article>
+            <script src="//checkout.stripe.com/v2/checkout.js"
+                    class="stripe-button"
+                    data-key="@Stripe.Value.PublishableKey"
+                    data-locale="auto"
+                    data-description="sample charge"
+                    data-amount="500"></script>
+        </form>
 </div>
