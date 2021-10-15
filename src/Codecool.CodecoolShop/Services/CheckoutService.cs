@@ -20,6 +20,11 @@ namespace Codecool.CodecoolShop.Services
             return cartDao.GetProducts(key);
         }
 
+        public void SaveCart(string userID, List<CartItem> cartList)
+        {
+            cartDao.SaveCart(userID, cartList);
+        }
+
         public void EmptyCart(string userID)
         {
             cartDao.EmptyCart(userID);
@@ -39,6 +44,14 @@ namespace Codecool.CodecoolShop.Services
             }
 
             return checkoutViewModel;
+        }
+
+        public void SaveToFile(string userID, string cartItems)
+        {
+            string orderLogDirectory = Util.GetOrderLogDirectory();
+            string currentDateTime = Util.GetCurrentDateTime();
+            string targetDirectory = $"{orderLogDirectory}{userID}---{currentDateTime}.json";
+            System.IO.File.WriteAllText(targetDirectory, cartItems);
         }
     }
 }
