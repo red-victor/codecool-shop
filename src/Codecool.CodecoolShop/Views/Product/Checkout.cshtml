@@ -1,36 +1,8 @@
-﻿@using Microsoft.Extensions.Options
-@inject IOptions<Codecool.CodecoolShop.Data.StripeSettings> Stripe
-
-@section Scripts
+﻿@section Scripts
 {
     <script type="module" src="~/js/checkout.js"></script>
     <script src="https://js.stripe.com/v3/"></script>
 }
-
-@model Codecool.CodecoolShop.Models.CheckoutViewModel
-
-<h1>Succes</h1>
-
-<div id="items">
-
-    @foreach (var product in Model.CheckoutItems)
-    {
-        <article class="product">
-            <div class="img-container">
-                <img src="../../img/@(product.Product.Name).jpg" alt="product" class="product-img" />
-            </div>
-            <h3>@product.Product.Name</h3>
-            <h3>@product.Quantity</h3>
-            <h3>Sum: @product.Sum</h3>
-            <h4>@product.Product.DefaultPrice.ToString("C2")</h4>
-        </article>
-    }
-
-    <h2>
-        @Model.Total
-</h2>
-</div>
-
 
 <form id="payment-form">
     <div id="stripe-card-element"><!--Stripe.js injects the Card Element--></div>

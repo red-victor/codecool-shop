@@ -70,6 +70,11 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Checkout()
         {
+            return View();
+        }
+
+        public IActionResult Cart()
+        {
             ICartDao cartDataStore = CartDaoMemory.GetInstance();
             var cartData = cartDataStore.GetProducts();
 
@@ -77,7 +82,7 @@ namespace Codecool.CodecoolShop.Controllers
 
             var checkoutViewModel = new CheckoutViewModel();
 
-            foreach( var product in cartData)
+            foreach (var product in cartData)
             {
                 var newCheckoutItem = new CheckoutItem();
                 newCheckoutItem.Product = productDataStore.Get(product.Id);
@@ -89,8 +94,8 @@ namespace Codecool.CodecoolShop.Controllers
         }
 
         [HttpPost]
-        [Route("api/checkout")]
-        public JsonResult CheckoutJSON(string payload)
+        [Route("api/cart")]
+        public JsonResult CartJSON(string payload)
         {
             var cartList = JsonConvert.DeserializeObject<List<CartItem>>(payload);
             ICartDao cartDataStore = CartDaoMemory.GetInstance();

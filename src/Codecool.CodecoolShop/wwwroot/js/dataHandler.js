@@ -1,6 +1,6 @@
 ﻿export let dataHandler = {
     checkoutCart: async function (cart) {
-        return await apiPost("/api/checkout", cart, "/Product/Checkout");
+        return await apiPost("/api/Cart", cart, "/Product/Cart");
     },
     saveOrder: async function (cart) {
         return await apiPost("/api/saveOrder", cart, "/Product/OrderDetails");

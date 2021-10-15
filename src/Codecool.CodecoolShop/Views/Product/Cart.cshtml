@@ -1,0 +1,72 @@
+﻿@section CSS
+{
+    <link rel="stylesheet" href="~/css/cart.css" />
+}
+
+@section Scripts
+{
+    <script type="module" src="~/js/cart.js"></script>
+}
+
+@model Codecool.CodecoolShop.Models.CheckoutViewModel
+
+<div class="container">
+
+    <section id="cart">
+
+        @foreach (var product in Model.CheckoutItems)
+        {
+            <article class="product">
+                <header>
+                    <a class="remove" data-id="@product.Product.Id">
+                        <img src="../../img/@(product.Product.Name).jpg" alt="product">
+
+                        <h3>Remove product</h3>
+                    </a>
+                </header>
+
+                <div class="content">
+
+                    <h1>@product.Product.Name</h1>
+
+                    @product.Product.Description
+
+                </div>
+
+                <footer class="content">
+                    <span class="qt-minus" data-id="@product.Product.Id">-</span>
+                    <span class="qt">@product.Quantity</span>
+                    <span class="qt-plus" data-id="@product.Product.Id">+</span>
+
+                    <h2 class="full-price">
+                        @product.Sum$
+                    </h2>
+
+                    <h2 class="price">
+                        @product.Product.DefaultPrice$
+                    </h2>
+                </footer>
+            </article>
+        }
+
+
+    </section>
+
+</div>
+
+<footer id="site-footer">
+    <div class="container clearfix">
+
+        <div class="left">
+            <h2 class="subtotal">Subtotal: <span>163.96</span>$</h2>
+            <h3 class="tax">Taxes (5%): <span>8.2</span>$</h3>
+            <h3 class="shipping">Shipping: <span>5.00</span>$</h3>
+        </div>
+
+        <div class="right">
+            <h1 class="total">Total: <span>177.16</span>$</h1>
+            <a class="btn">Checkout</a>
+        </div>
+
+    </div>
+</footer>
