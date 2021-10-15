@@ -30,9 +30,15 @@ namespace Codecool.CodecoolShop.Controllers
         public ActionResult Create(PaymentIntentCreateRequest request)
         {
             var paymentIntents = new PaymentIntentService();
+            var amount = CalculateOrderAmount(request.Items);
+            // Add taxes
+            var tax = amount * 5 / 100;
+            amount += tax;
+            var shipping = 500;
+            amount += shipping;
             var paymentIntent = paymentIntents.Create(new PaymentIntentCreateOptions
             {
-                Amount = CalculateOrderAmount(request.Items),
+                Amount = amount,
                 Currency = "usd",
             });
             return Json(new { clientSecret = paymentIntent.ClientSecret, stripeResponseStatusCode = paymentIntent.StripeResponse.StatusCode });

@@ -2,8 +2,8 @@
 import { LocalStorage } from "./localStorageHandler.js";
 
 const ui = new UI();
-
-var check = false;
+changeTotal();
+/*var check = false;*/
 
 function changeVal(el) {
     var qt = parseFloat(el.parent().children(".qt").html());
@@ -59,12 +59,12 @@ $(document).ready(function () {
 
                     /*if ($(".product").length == 0) {
                         if (check) {
-                            $("#cart").html("<h1>The shop does not function, yet!</h1><p>If you liked my shopping cart, please take a second and heart this Pen on <a href='https://codepen.io/ziga-miklic/pen/xhpob'>CodePen</a>. Thank you!</p>");
+                            $("#payment-form").show();
                         } else {
                             $("#cart").html("<h1>No products!</h1>");
+                            changeTotal();
                         }
                     }*/
-                    changeTotal();
                 });
             }, 200);
     });

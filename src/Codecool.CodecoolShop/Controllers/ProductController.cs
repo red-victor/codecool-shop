@@ -139,6 +139,10 @@ namespace Codecool.CodecoolShop.Controllers
         [Route("api/saveOrder")]
         public JsonResult OrderDetailsJSON(string payload)
         {
+            var cartList = JsonConvert.DeserializeObject<List<CartItem>>(payload);
+            ICartDao cartDataStore = CartDaoMemory.GetInstance();
+            cartDataStore.SaveCart(Request.Cookies["userId"], cartList);
+
             string workingDirectory = Environment.CurrentDirectory;
             string userID = Request.Cookies["userId"][0..4];
             string dateNow = DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss");

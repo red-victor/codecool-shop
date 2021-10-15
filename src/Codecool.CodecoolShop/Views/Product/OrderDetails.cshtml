@@ -1,22 +1,223 @@
-﻿@using Microsoft.Extensions.Options
+﻿@model Codecool.CodecoolShop.Models.CheckoutViewModel
 
-@model Codecool.CodecoolShop.Models.CheckoutViewModel
 
-<h1>Order Details</h1>
+<table class="wrapper" style="margin: 0;background: #fff;border: 0;width: 100%;text-align: center;">
+    <tbody>
+        <tr>
+            <td class="content-wrap" style="border: 0;width: 600px;text-align: center;background: #f5f5f5;">
+                <table class="content" style="margin: 0 auto;border: 0;width: 600px;text-align: center;">
+                    <tbody>
 
-<div id="items">
+                        <tr>
+                            <td class="box" style="background: #fff;padding: 0 25px;">
+                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 auto;">
+                                    <tbody>
+                                        <tr>
+                                            <td align="center">
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 auto;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td align="center">
+                                                                <h1 class="hero-primary" style="text-transform: uppercase;font-size: 28px;color: #283375;margin-top: 70px; margin-bottom:30px">
+                                                                    Order Confirmation Details
+                                                                </h1>
+                                                            </td>
+                                                        </tr>
+                                                        <tr class="lead-wrap" style="text-align: center;width: 100%;">
+                                                            <td class="lead" style="font-family: Helvetica,sans-serif;text-align: center;border-collapse: collapse;font-size: 18px;letter-spacing: .045em;line-height: 24px;mso-line-height-rule: exactly;">
 
-    @foreach (var product in Model.CheckoutItems)
-    {
-        <article class="product">
-            <h3>@product.Product.Name</h3>
-            <h3>@product.Quantity</h3>
-            <h3>Sum: @product.Sum</h3>
-            <h4>@product.Product.DefaultPrice.ToString("C2")</h4>
-        </article><br>
-    }
+                                                                John Doe, we’ve received your order and all<br>systems are go. When your order ships, we’ll send<br>you another email with your tracking info.
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="em-spacer-1" style="height: 26px;"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="order-link-wrap" style="text-align: center;font-size: 14px;">
+                                                                <strong>
+                                                                    Order:                                  <a href="#" style="color: #0047be;" target="_blank">R650000650</a>
+                                                                    <span class="pipe">
+                                                                        |
+                                                                    </span>
+                                                                    Date ordered:                                    15/10/2021
+                                                                </strong>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="em-spacer-1" style="height: 26px;"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="em-spacer-2" style="height: 52px;"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="em-spacer-1" style="height: 26px;"></td>
+                        </tr>
+                        <tr>
+                            <td class="box box-ext order-summary-box" style="background: #fff;padding: 0 25px;text-align: center;">
+                                <table class="two-col ledger" style="margin: 0 auto;font-size: 14px;line-height: 22px;width: 546px;text-align: left;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="em-spacer-1" style="height: 26px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <table align="left" class="column column-1" style="margin: 0 auto;width: 270px;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <strong class="title" style="text-transform: uppercase;display: block;margin-bottom: 5px;">
+                                                                    Billing Address
+                                                                </strong>
+                                                                John Doe<br>
+                                                                XXXX XXXXXX XXX
 
-    <h2>
-        @Model.Total
-    </h2>
-</div>
+                                                                <br>
+                                                                XXXXXX, XX XXXXX
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <table align="left" class="column column-2" style="margin: 0 auto;width: 270px;">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <strong class="title" style="text-transform: uppercase;display: block;margin-bottom: 5px;">
+                                                                    Shipping Address
+                                                                </strong>
+                                                                John Doe<br>
+                                                                XXXX XXXXXX XXX
+
+                                                                <br>
+                                                                XXXXXX, XX XXXXX
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="em-spacer-1" style="height: 26px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <table class="order-summary" style="margin: 0 auto;text-align: left;width: 546px;border-top: 2px solid #eee;">
+                                    <tbody>
+                                        <tr>
+                                            <td class="em-spacer-0" style="height: 20px;"></td>
+                                        </tr>
+                                        @foreach (var product in Model.CheckoutItems)
+                                        {
+                                            <tr class="line-item">
+                                                <td class="line-item product-thumb-column" style="width: 80px;">
+                                                    <img alt="Queen" class="product-thumb" height="80" width="80" src="../../img/@(product.Product.Name).jpg" style="width: 80px;height: 80px;">
+                                                    <div class="row-spacer" style="height: 8px;"></div>
+                                                </td>
+                                                <td class="line-item product-info-column" style="width: 200px;">
+                                                    <div class="title" style="margin-bottom: 5px;">
+                                                        @product.Product.Name
+                                                    </div>
+                                                    <div class="sub" style="font-size: 13px;margin-bottom: 3px;">
+                                                        Qty: @product.Quantity
+                                                    </div>
+                                                </td>
+                                                <td class="line-item product-price-column" style="width: 100px;text-align: right;vertical-align: top;">
+                                                    <div class="sub price" style="font-size: 13px;margin-bottom: 3px;margin-top: 18px;">
+                                                        @product.Sum$
+                                                    </div>
+                                                    <div class="ships-by-message" style="font-size: 13px;padding-top: 4px;">
+                                                        <strong style="font-weight: 400;">
+                                                            Ready to Ship
+                                                        </strong>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        }
+
+
+
+
+                                        <tr>
+                                            <td class="em-spacer-0" style="height: 20px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="divider" colspan="3" style="border-bottom: 2px solid #eee;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="em-spacer-1" style="height: 26px;"></td>
+                                        </tr>
+                                        <tr class="total-row" style="font-size: 14px;">
+                                            <td class="copy" colspan="2" style="text-align: right;">
+                                                Subtotal
+                                            </td>
+                                            <td class="value" style="text-align: right;">
+                                                @Model.Total$
+                                            </td>
+                                        </tr>
+                                        <tr class="total-row" style="font-size: 14px;">
+                                            <td class="copy" colspan="2" style="text-align: right;">
+                                                Shipping
+                                            </td>
+                                            <td class="value" style="text-align: right;">
+                                                @Model.Shipping$
+                                            </td>
+                                        </tr>
+                                        <tr class="total-row" style="font-size: 14px;">
+                                            <td class="copy" colspan="2" style="text-align: right;">
+                                                Sales Tax
+                                            </td>
+                                            <td class="value" style="text-align: right;">
+                                                @Model.Tax$
+                                            </td>
+                                        </tr>
+                                        <tr class="total-row total" style="font-size: 14px;">
+                                            <td class="copy" colspan="2" style="text-align: right;padding-top: 10px;">
+                                                <strong>
+                                                    Total
+                                                </strong>
+                                            </td>
+                                            <td class="value" style="text-align: right;padding-top: 10px;">
+                                                <strong>
+                                                    @Model.FinalPrice$
+                                                </strong>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="em-spacer-0" style="height: 20px;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="divider" colspan="3" style="border-bottom: 2px solid #eee;"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="em-spacer-2" style="height: 52px;"></td>
+                                        </tr>
+
+
+                                        <tr align="center">
+                                            <td class="lead secondary" colspan="3" style="font-family: Helvetica,sans-serif;text-align: center;border-collapse: collapse;font-size: 14px;letter-spacing: .045em;line-height: 24px;mso-line-height-rule: exactly;width: 100%;">
+
+                                                Items in your order may ship separately.<br>View <a href="#" target="_blank">your order</a> for shipping updates.
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="em-spacer-2" style="height: 52px;"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<!-- class content -->

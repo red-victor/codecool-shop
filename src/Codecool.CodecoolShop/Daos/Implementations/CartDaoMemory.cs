@@ -27,7 +27,14 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public void SaveCart(string userID, List<CartItem> cartList)
         {
-            data.Add(userID, cartList);
+            if (data.ContainsKey(userID))
+            {
+                data[userID] = cartList;
+            }
+            else
+            {
+                data.Add(userID, cartList);
+            }
         }
         public void EmptyCart(string userID)
         {
