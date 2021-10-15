@@ -144,7 +144,7 @@ a {
         }
 
         .product header h3 {
-            background: #53b5aa;
+            background: #f09d51;
             color: #fff;
             font-size: 22px;
             font-weight: 300;
@@ -175,7 +175,7 @@ a {
 }
 
 .product h1 {
-    color: #53b5aa;
+    color: #f09d51;
     font-size: 25px;
     font-weight: 300;
     margin: 17px 0 20px 0;
@@ -199,7 +199,7 @@ a {
 }
 
 .product footer .full-price {
-    background: #53b5aa;
+    background: #f09d51;
     color: #fff;
     float: right;
     font-size: 22px;
@@ -294,12 +294,12 @@ a {
 }
 
 .checkout-btn {
-    background: #53b5aa;
+    background: #f09d51;
     border: 1px solid #999;
     border-style: none none solid none;
     cursor: pointer;
     display: block;
-    color: #fff;
+    color: #000;
     font-size: 20px;
     font-weight: 300;
     padding: 16px 0;
@@ -313,8 +313,8 @@ a {
 }
 
     .checkout-btn:hover {
-        color: #fff;
-        background: #429188;
+        color: #f09d51;
+        background: #fff;
     }
 
 .type {
