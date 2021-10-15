@@ -22,6 +22,7 @@ namespace Codecool.CodecoolShop.Controllers
         public Services.ProductService ProductService { get; set; }
 
         public Services.CheckoutService CheckoutService { get; set; }
+        public Services.CookieService CookieService { get; set; }
 
         public ProductController(ILogger<ProductController> logger)
         {
@@ -35,17 +36,19 @@ namespace Codecool.CodecoolShop.Controllers
             CheckoutService = new Services.CheckoutService(
                 ProductDaoMemory.GetInstance(),
                 CartDaoMemory.GetInstance());
+
+            CookieService = new CookieService();
         }
 
         public IActionResult Index()
         {
             var cookieUserId = Request.Cookies["userId"];
+
             if (cookieUserId == null)
             {
-                CookieOptions option = new CookieOptions();
-                option.Expires = DateTime.Now.AddDays(1);
+                var options = CookieService.GenerateCookieOptions();
                 var userUUId = Util.GenerateID();
-                Response.Cookies.Append("userId", userUUId, option);
+                Response.Cookies.Append("userId", userUUId, options);
             }
 
             var products = ProductService.GetAllProducts();
