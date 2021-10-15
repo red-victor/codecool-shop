@@ -80,8 +80,12 @@ export class UI {
 
     async checkoutCart() {
         var cart = localStorage.getItem("cart");
-        var checkoutResponse = await dataHandler.checkoutCart(cart);
-        console.log(await checkoutResponse);
+        if (cart !== '') {
+            var checkoutResponse = await dataHandler.checkoutCart(cart);
+            console.log(await checkoutResponse);
+        } else {
+            console.log("Cart empty");
+        }
     }
 
     removeItem(id) {

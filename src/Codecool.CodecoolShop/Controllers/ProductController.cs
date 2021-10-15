@@ -12,6 +12,7 @@ using Codecool.CodecoolShop.Models;
 using Codecool.CodecoolShop.Services;
 using Newtonsoft.Json;
 using Stripe;
+using Microsoft.AspNetCore.Http;
 
 namespace Codecool.CodecoolShop.Controllers
 {
@@ -32,6 +33,15 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Index()
         {
+            var cookieUserId = Request.Cookies["userId"];
+            if (cookieUserId == null)
+            {
+                CookieOptions option = new CookieOptions();
+                option.Expires = DateTime.Now.AddDays(1);
+                var userUUId = Util.GenerateID();
+                Response.Cookies.Append("userId", userUUId, option);
+            }
+
             var products = ProductService.GetAllProducts();
             return View(products.ToList());
         }
@@ -76,7 +86,7 @@ namespace Codecool.CodecoolShop.Controllers
         public IActionResult Cart()
         {
             ICartDao cartDataStore = CartDaoMemory.GetInstance();
-            var cartData = cartDataStore.GetProducts();
+            var cartData = cartDataStore.GetProducts(Request.Cookies["userId"]);
 
             IProductDao productDataStore = ProductDaoMemory.GetInstance();
 
@@ -99,7 +109,7 @@ namespace Codecool.CodecoolShop.Controllers
         {
             var cartList = JsonConvert.DeserializeObject<List<CartItem>>(payload);
             ICartDao cartDataStore = CartDaoMemory.GetInstance();
-            cartDataStore.SaveCart(cartList);
+            cartDataStore.SaveCart(Request.Cookies["userId"], cartList);
 
             return Json(new { success = true, responseText = "Data sent" });
         }
@@ -107,8 +117,8 @@ namespace Codecool.CodecoolShop.Controllers
         public IActionResult OrderDetails()
         {
             ICartDao cartDataStore = CartDaoMemory.GetInstance();
-            var cartData = cartDataStore.GetProducts();
-            cartDataStore.EmptyCart();
+            var cartData = cartDataStore.GetProducts(Request.Cookies["userId"]);
+            cartDataStore.EmptyCart(Request.Cookies["userId"]);
 
             IProductDao productDataStore = ProductDaoMemory.GetInstance();
 
@@ -130,7 +140,10 @@ namespace Codecool.CodecoolShop.Controllers
         public JsonResult OrderDetailsJSON(string payload)
         {
             string workingDirectory = Environment.CurrentDirectory;
-            System.IO.File.WriteAllText($"{workingDirectory}\\OrderLogs\\order.json", payload);
+            string userID = Request.Cookies["userId"][0..4];
+            string dateNow = DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss");
+            string targetDirectory = $"{workingDirectory}\\OrderLogs\\{userID}---{dateNow}.json";
+            System.IO.File.WriteAllText(targetDirectory, payload);
 
             return Json(new { success = true, responseText = "Data saved" });
         }
