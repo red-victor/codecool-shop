@@ -16,13 +16,17 @@ namespace Codecool.CodecoolShop.Controllers
     public class PaymentController : Controller
     {
         public Services.ProductService ProductService { get; set; }
+        public Services.CheckoutService CartService { get; set; }
 
         public PaymentController()
         {
             ProductService = new Services.ProductService(
                 ProductDaoMemory.GetInstance(),
                 ProductCategoryDaoMemory.GetInstance(),
-                SupplierDaoMemory.GetInstance(),
+                SupplierDaoMemory.GetInstance());
+
+            CartService = new Services.CheckoutService(
+                ProductDaoMemory.GetInstance(),
                 CartDaoMemory.GetInstance());
         }
 

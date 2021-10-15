@@ -12,6 +12,6 @@ namespace Codecool.CodecoolShop.Models
         public decimal Total => CheckoutItems.Sum(item => item.Sum);
         public decimal Tax => Total * 5 / 100;
         public decimal Shipping => 5;
-        public decimal FinalPrice => Total + Shipping + Tax;
+        public decimal FinalPrice => Math.Round(Total + Shipping + Tax, 2);
     }
 }

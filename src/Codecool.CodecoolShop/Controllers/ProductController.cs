@@ -21,13 +21,19 @@ namespace Codecool.CodecoolShop.Controllers
         private readonly ILogger<ProductController> _logger;
         public Services.ProductService ProductService { get; set; }
 
+        public Services.CheckoutService CheckoutService { get; set; }
+
         public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
+
             ProductService = new Services.ProductService(
                 ProductDaoMemory.GetInstance(),
                 ProductCategoryDaoMemory.GetInstance(),
-                SupplierDaoMemory.GetInstance(),
+                SupplierDaoMemory.GetInstance());
+
+            CheckoutService = new Services.CheckoutService(
+                ProductDaoMemory.GetInstance(),
                 CartDaoMemory.GetInstance());
         }
 
@@ -58,15 +64,6 @@ namespace Codecool.CodecoolShop.Controllers
             return View("Index", products.ToList());
         }
 
-        public IActionResult AddToCart(string id)
-        {
-            var product = ProductService.GetProduct(int.Parse(id));
-            ProductService.AddToCart(product);
-
-            var products = ProductService.GetAllProducts();
-            return View(products.ToList());
-        }
-
         public IActionResult Privacy()
         {
             return View();
@@ -85,20 +82,8 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Cart()
         {
-            ICartDao cartDataStore = CartDaoMemory.GetInstance();
-            var cartData = cartDataStore.GetProducts(Request.Cookies["userId"]);
-
-            IProductDao productDataStore = ProductDaoMemory.GetInstance();
-
-            var checkoutViewModel = new CheckoutViewModel();
-
-            foreach (var product in cartData)
-            {
-                var newCheckoutItem = new CheckoutItem();
-                newCheckoutItem.Product = productDataStore.Get(product.Id);
-                newCheckoutItem.Quantity = product.Quantity;
-                checkoutViewModel.CheckoutItems.Add(newCheckoutItem);
-            }
+            var userID = Request.Cookies["userId"];
+            var checkoutViewModel = CheckoutService.GenerateCheckoutViewModel(userID);
 
             return View(checkoutViewModel);
         }
@@ -116,21 +101,9 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult OrderDetails()
         {
-            ICartDao cartDataStore = CartDaoMemory.GetInstance();
-            var cartData = cartDataStore.GetProducts(Request.Cookies["userId"]);
-            cartDataStore.EmptyCart(Request.Cookies["userId"]);
-
-            IProductDao productDataStore = ProductDaoMemory.GetInstance();
-
-            var checkoutViewModel = new CheckoutViewModel();
-
-            foreach (var product in cartData)
-            {
-                var newCheckoutItem = new CheckoutItem();
-                newCheckoutItem.Product = productDataStore.Get(product.Id);
-                newCheckoutItem.Quantity = product.Quantity;
-                checkoutViewModel.CheckoutItems.Add(newCheckoutItem);
-            }
+            var userID = Request.Cookies["userId"];
+            var checkoutViewModel = CheckoutService.GenerateCheckoutViewModel(userID);
+            CheckoutService.EmptyCart(userID);
 
             return View(checkoutViewModel);
         }
