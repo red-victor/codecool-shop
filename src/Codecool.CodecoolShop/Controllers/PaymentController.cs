@@ -15,26 +15,18 @@ namespace Codecool.CodecoolShop.Controllers
     [ApiController]
     public class PaymentController : Controller
     {
-        public Services.ProductService ProductService { get; set; }
-        public Services.CheckoutService CartService { get; set; }
+        public Services.PaymentService PaymentService { get; set; }
 
         public PaymentController()
         {
-            ProductService = new Services.ProductService(
-                ProductDaoMemory.GetInstance(),
-                ProductCategoryDaoMemory.GetInstance(),
-                SupplierDaoMemory.GetInstance());
-
-            CartService = new Services.CheckoutService(
-                ProductDaoMemory.GetInstance(),
-                CartDaoMemory.GetInstance());
+            PaymentService = new Services.PaymentService();
         }
 
         [HttpPost]
         public ActionResult Create(PaymentIntentCreateRequest request)
         {
             var paymentIntents = new PaymentIntentService();
-            var amount = CalculateOrderAmount(request.Items);
+            var amount = PaymentService.CalculateOrderAmount(request.Items);
             // Add taxes
             var tax = amount * 5 / 100;
             amount += tax;
@@ -45,18 +37,10 @@ namespace Codecool.CodecoolShop.Controllers
                 Amount = amount,
                 Currency = "usd",
             });
-            return Json(new { clientSecret = paymentIntent.ClientSecret, stripeResponseStatusCode = paymentIntent.StripeResponse.StatusCode });
+            return Json(new { clientSecret = paymentIntent.ClientSecret});
         }
 
-        private int CalculateOrderAmount(CartItem[] items)
-        {
-            float sum = 0;
-
-            foreach(var item in items)
-               sum += item.Price * item.Quantity;
-            
-            return (int)((Math.Round(sum * 100f) / 100f) * 100);
-        }
+        
         
         public class PaymentIntentCreateRequest
         {
