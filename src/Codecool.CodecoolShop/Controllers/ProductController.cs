@@ -21,25 +21,34 @@ namespace Codecool.CodecoolShop.Controllers
         private readonly ILogger<ProductController> _logger;
         public Services.ProductService ProductService { get; set; }
 
+        public Services.CheckoutService CheckoutService { get; set; }
+        public Services.CookieService CookieService { get; set; }
+
         public ProductController(ILogger<ProductController> logger)
         {
             _logger = logger;
+
             ProductService = new Services.ProductService(
                 ProductDaoMemory.GetInstance(),
                 ProductCategoryDaoMemory.GetInstance(),
-                SupplierDaoMemory.GetInstance(),
+                SupplierDaoMemory.GetInstance());
+
+            CheckoutService = new Services.CheckoutService(
+                ProductDaoMemory.GetInstance(),
                 CartDaoMemory.GetInstance());
+
+            CookieService = new CookieService();
         }
 
         public IActionResult Index()
         {
             var cookieUserId = Request.Cookies["userId"];
+
             if (cookieUserId == null)
             {
-                CookieOptions option = new CookieOptions();
-                option.Expires = DateTime.Now.AddDays(1);
+                var options = CookieService.GenerateCookieOptions();
                 var userUUId = Util.GenerateID();
-                Response.Cookies.Append("userId", userUUId, option);
+                Response.Cookies.Append("userId", userUUId, options);
             }
 
             var products = ProductService.GetAllProducts();
@@ -56,15 +65,6 @@ namespace Codecool.CodecoolShop.Controllers
         {
             var products = ProductService.GetProductsForSupplier(int.Parse(id));
             return View("Index", products.ToList());
-        }
-
-        public IActionResult AddToCart(string id)
-        {
-            var product = ProductService.GetProduct(int.Parse(id));
-            ProductService.AddToCart(product);
-
-            var products = ProductService.GetAllProducts();
-            return View(products.ToList());
         }
 
         public IActionResult Privacy()
@@ -85,20 +85,8 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult Cart()
         {
-            ICartDao cartDataStore = CartDaoMemory.GetInstance();
-            var cartData = cartDataStore.GetProducts(Request.Cookies["userId"]);
-
-            IProductDao productDataStore = ProductDaoMemory.GetInstance();
-
-            var checkoutViewModel = new CheckoutViewModel();
-
-            foreach (var product in cartData)
-            {
-                var newCheckoutItem = new CheckoutItem();
-                newCheckoutItem.Product = productDataStore.Get(product.Id);
-                newCheckoutItem.Quantity = product.Quantity;
-                checkoutViewModel.CheckoutItems.Add(newCheckoutItem);
-            }
+            var userID = Request.Cookies["userId"];
+            var checkoutViewModel = CheckoutService.GenerateCheckoutViewModel(userID);
 
             return View(checkoutViewModel);
         }
@@ -107,7 +95,7 @@ namespace Codecool.CodecoolShop.Controllers
         [Route("api/cart")]
         public JsonResult CartJSON(string payload)
         {
-            var cartList = JsonConvert.DeserializeObject<List<CartItem>>(payload);
+            var cartList = Util.DeserializeJSON(payload);
             ICartDao cartDataStore = CartDaoMemory.GetInstance();
             cartDataStore.SaveCart(Request.Cookies["userId"], cartList);
 
@@ -116,21 +104,9 @@ namespace Codecool.CodecoolShop.Controllers
 
         public IActionResult OrderDetails()
         {
-            ICartDao cartDataStore = CartDaoMemory.GetInstance();
-            var cartData = cartDataStore.GetProducts(Request.Cookies["userId"]);
-            cartDataStore.EmptyCart(Request.Cookies["userId"]);
-
-            IProductDao productDataStore = ProductDaoMemory.GetInstance();
-
-            var checkoutViewModel = new CheckoutViewModel();
-
-            foreach (var product in cartData)
-            {
-                var newCheckoutItem = new CheckoutItem();
-                newCheckoutItem.Product = productDataStore.Get(product.Id);
-                newCheckoutItem.Quantity = product.Quantity;
-                checkoutViewModel.CheckoutItems.Add(newCheckoutItem);
-            }
+            var userID = Request.Cookies["userId"];
+            var checkoutViewModel = CheckoutService.GenerateCheckoutViewModel(userID);
+            CheckoutService.EmptyCart(userID);
 
             return View(checkoutViewModel);
         }
@@ -139,15 +115,11 @@ namespace Codecool.CodecoolShop.Controllers
         [Route("api/saveOrder")]
         public JsonResult OrderDetailsJSON(string payload)
         {
-            var cartList = JsonConvert.DeserializeObject<List<CartItem>>(payload);
-            ICartDao cartDataStore = CartDaoMemory.GetInstance();
-            cartDataStore.SaveCart(Request.Cookies["userId"], cartList);
+            var cartList = Util.DeserializeJSON(payload);
+            string userID = Request.Cookies["userId"];
+            CheckoutService.SaveCart(userID, cartList);
 
-            string workingDirectory = Environment.CurrentDirectory;
-            string userID = Request.Cookies["userId"][0..4];
-            string dateNow = DateTime.Now.ToString("yyyy-MM-dd--HH-mm-ss");
-            string targetDirectory = $"{workingDirectory}\\OrderLogs\\{userID}---{dateNow}.json";
-            System.IO.File.WriteAllText(targetDirectory, payload);
+            CheckoutService.SaveToFile(userID, payload);
 
             return Json(new { success = true, responseText = "Data saved" });
         }

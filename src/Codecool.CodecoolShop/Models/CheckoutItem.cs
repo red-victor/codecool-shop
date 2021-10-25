@@ -11,6 +11,6 @@ namespace Codecool.CodecoolShop.Models
 
         public Product Product { get; set; }
 
-        public decimal Sum => Product.DefaultPrice * Quantity; 
+        public decimal Sum => Math.Round(Product.DefaultPrice * Quantity, 2); 
     }
 }
