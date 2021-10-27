@@ -13,31 +13,58 @@ using Codecool.CodecoolShop.Services;
 using Newtonsoft.Json;
 using Stripe;
 using Microsoft.AspNetCore.Http;
+using Codecool.CodecoolShop.Data;
 
 namespace Codecool.CodecoolShop.Controllers
 {
     public class ProductController : Controller
     {
         private readonly ILogger<ProductController> _logger;
+        private readonly ApplicationDbContext _db;
         public Services.ProductService ProductService { get; set; }
 
         public Services.CheckoutService CheckoutService { get; set; }
         public Services.CookieService CookieService { get; set; }
 
-        public ProductController(ILogger<ProductController> logger)
+        public ProductController(ILogger<ProductController> logger, ApplicationDbContext db)
         {
             _logger = logger;
+            _db = db;
+
+            if (_db.Products.Count() == 0 && _db.ProductCategories.Count() == 0 && _db.Suppliers.Count() == 0)
+              SetupDatabases();
 
             ProductService = new Services.ProductService(
-                ProductDaoMemory.GetInstance(),
-                ProductCategoryDaoMemory.GetInstance(),
-                SupplierDaoMemory.GetInstance());
+                ProductDaoDatabase.GetInstance(_db),
+                ProductCategoryDaoDatabase.GetInstance(_db),
+                SupplierDaoDatabase.GetInstance(_db));
 
             CheckoutService = new Services.CheckoutService(
-                ProductDaoMemory.GetInstance(),
+                ProductDaoDatabase.GetInstance(_db),
                 CartDaoMemory.GetInstance());
 
             CookieService = new CookieService();
+        }
+
+        private void SetupDatabases()
+        {
+            IProductDao productDataStore = ProductDaoDatabase.GetInstance(_db);
+            IProductCategoryDao productCategoryDataStore = ProductCategoryDaoDatabase.GetInstance(_db);
+            ISupplierDao supplierDataStore = SupplierDaoDatabase.GetInstance(_db);
+
+            Supplier amazon = new Supplier { Name = "Amazon", Description = "Digital content and services" };
+            supplierDataStore.Add(amazon);
+            Supplier lenovo = new Supplier { Name = "Lenovo", Description = "Computers" };
+            supplierDataStore.Add(lenovo);
+            ProductCategory tablet = new ProductCategory { Name = "Tablet", Department = "Hardware", Description = "A tablet computer, commonly shortened to tablet, is a thin, flat mobile computer with a touchscreen display." };
+            productCategoryDataStore.Add(tablet);
+            ProductCategory laptop = new ProductCategory { Name = "Laptop", Department = "Hardware", Description = "Laptop" };
+            productCategoryDataStore.Add(laptop);
+            productDataStore.Add(new Models.Product { Name = "Amazon Fire", DefaultPrice = 49.9m, Currency = "USD", Description = "Fantastic price. Large content ecosystem. Good parental controls. Helpful technical support.", ProductCategory = tablet, Supplier = amazon });
+            productDataStore.Add(new Models.Product { Name = "Lenovo IdeaPad Miix 700", DefaultPrice = 479.0m, Currency = "USD", Description = "Keyboard cover is included. Fanless Core m5 processor. Full-size USB ports. Adjustable kickstand.", ProductCategory = tablet, Supplier = lenovo });
+            productDataStore.Add(new Models.Product { Name = "Amazon Fire HD 8", DefaultPrice = 89.0m, Currency = "USD", Description = "Amazon's latest Fire HD 8 tablet is a great value for media consumption.", ProductCategory = tablet, Supplier = amazon });
+            productDataStore.Add(new Models.Product { Name = "Lenovo ThinkPad", DefaultPrice = 230.3m, Currency = "USD", Description = "Cel mai smecher smecher smecher leptop", ProductCategory = laptop, Supplier = lenovo });
+            _db.SaveChanges();
         }
 
         public IActionResult Index()

@@ -10,10 +10,10 @@ namespace Codecool.CodecoolShop.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-            : base(options)
-        {
-
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+        public DbSet<Product> Products { get; set; }
     }
 }
