@@ -17,9 +17,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             this._db = db;
         }
 
-        public void EmptyCart(string userId)
         {
-            var result = _db.Carts.Where(c => c.User.Id == userId).Include(c => c.Items).FirstOrDefault();
             if (result != null)
             {
                 result.Items = new List<CartItem>();
@@ -34,7 +32,6 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 
         public void SaveCart(string userId, List<CartItem> items)
         {
-            var result = _db.Carts.Where(c => c.User.Id == userId).Include(c => c.Items).FirstOrDefault();
             if (result != null)
             {
                 result.Items = items;
