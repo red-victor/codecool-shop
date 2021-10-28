@@ -7,8 +7,8 @@ namespace Codecool.CodecoolShop.Models
 {
     public class CheckoutViewModel
     {
+        public ApplicationUser User;
         public List<CheckoutItem> CheckoutItems = new List<CheckoutItem>();
-
         public decimal Total => CheckoutItems.Sum(item => item.Sum);
         public decimal Tax => Total * 5 / 100;
         public decimal Shipping => 5;

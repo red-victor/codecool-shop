@@ -15,11 +15,13 @@ namespace Codecool.CodecoolShop.Data
         public IProductCategoryDao Categories { get; private set; }
         public IProductDao Products { get; private set; }
         public ICartDao Carts { get; private set; }
+        public IApplicationUser Users { get; private set; }
 
 
         public UnitOfWork(ApplicationDbContext db)
         {
             this._db = db;
+            this.Users = new ApplicationUserDaoDatabase(_db);
             this.Suppliers = new SupplierDaoDatabase(_db);
             this.Categories = new ProductCategoryDaoDatabase(_db);
             this.Products = new ProductDaoDatabase(_db);

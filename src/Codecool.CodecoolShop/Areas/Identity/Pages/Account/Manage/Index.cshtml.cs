@@ -36,6 +36,16 @@ namespace Codecool.CodecoolShop.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "Name")]
+            public string Name { get; set; }
+            [Display(Name = "State")]
+            public string State { get; set; }
+            [Display(Name = "City")]
+            public string City { get; set; }
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+            [Display(Name = "Postal code")]
+            public string PostalCode { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -47,7 +57,12 @@ namespace Codecool.CodecoolShop.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Name = user.Name,
+                State = user.State,
+                City = user.City,
+                Address = user.Address,
+                PostalCode = user.PostalCode
             };
         }
 
@@ -78,14 +93,44 @@ namespace Codecool.CodecoolShop.Areas.Identity.Pages.Account.Manage
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
-            if (Input.PhoneNumber != phoneNumber)
+            if (Input.PhoneNumber != phoneNumber || Input.Name != user.Name || Input.State != user.State)
             {
-                var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
-                if (!setPhoneResult.Succeeded)
+                if (Input.PhoneNumber != phoneNumber)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
-                    return RedirectToPage();
+                    var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
+                    if (!setPhoneResult.Succeeded)
+                    {
+                        StatusMessage = "Unexpected error when trying to set phone number.";
+                        return RedirectToPage();
+                    }
                 }
+
+                if (Input.Name != user.Name)
+                {
+                    user.Name = Input.Name;
+                }
+
+                if (Input.State != user.State)
+                {
+                    user.State = Input.State;
+                }
+
+                if (Input.City != user.City)
+                {
+                    user.City = Input.City;
+                }
+
+                if (Input.Address != user.Address)
+                {
+                    user.Address = Input.Address;
+                }
+
+                if (Input.PostalCode != user.PostalCode)
+                {
+                    user.PostalCode = Input.PostalCode;
+                }
+
+                await _userManager.UpdateAsync(user);
             }
 
             await _signInManager.RefreshSignInAsync(user);

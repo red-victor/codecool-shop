@@ -12,5 +12,6 @@ namespace Codecool.CodecoolShop.Data
         IProductCategoryDao Categories { get; }
         IProductDao Products { get; }
         ICartDao Carts { get; }
+        IApplicationUser Users { get; }
     }
 }

@@ -91,7 +91,10 @@ namespace Codecool.CodecoolShop.Controllers
         [Authorize]
         public IActionResult Checkout()
         {
-            return View();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var checkoutViewModel = CheckoutService.GenerateCheckoutViewModel(userId);
+            checkoutViewModel.User = _unitOfWork.Users.Get(userId);
+            return View(checkoutViewModel);
         }
 
         [Authorize]
