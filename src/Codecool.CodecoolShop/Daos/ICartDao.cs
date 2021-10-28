@@ -8,6 +8,6 @@ namespace Codecool.CodecoolShop.Daos
         void SaveCart(string userID, List<CartItem> cart);
         void EmptyCart(string userID);
 
-        List<CartItem> GetProducts(string userID);
+        IEnumerable<CartItem> GetProducts(string userID);
     }
 }

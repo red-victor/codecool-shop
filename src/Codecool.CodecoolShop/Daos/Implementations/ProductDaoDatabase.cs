@@ -9,23 +9,11 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class ProductDaoDatabase : IProductDao
     {
-        private static ProductDaoDatabase instance = null;
-
         private readonly ApplicationDbContext _db;
 
-        private ProductDaoDatabase(ApplicationDbContext db)
+        public ProductDaoDatabase(ApplicationDbContext db)
         {
             this._db = db;
-        }
-
-        public static ProductDaoDatabase GetInstance(ApplicationDbContext db)
-        {
-            if (instance == null)
-            {
-                instance = new ProductDaoDatabase(db);
-            }
-
-            return instance;
         }
 
         public void Add(Product item)
@@ -56,6 +44,11 @@ namespace Codecool.CodecoolShop.Daos.Implementations
         public IEnumerable<Product> GetBy(ProductCategory productCategory)
         {
             return _db.Products.Where(x => x.ProductCategory.Id == productCategory.Id).ToList();
+        }
+
+        public decimal GetPrice(int id)
+        {
+            return Get(id).DefaultPrice;
         }
     }
 }

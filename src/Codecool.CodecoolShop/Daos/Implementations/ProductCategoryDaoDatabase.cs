@@ -7,23 +7,11 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     class ProductCategoryDaoDatabase : IProductCategoryDao
     {
-        private static ProductCategoryDaoDatabase instance = null;
-
         private readonly ApplicationDbContext _db;
 
-        private ProductCategoryDaoDatabase(ApplicationDbContext db)
+        public ProductCategoryDaoDatabase(ApplicationDbContext db)
         {
             this._db = db;
-        }
-
-        public static ProductCategoryDaoDatabase GetInstance(ApplicationDbContext db)
-        {
-            if (instance == null)
-            {
-                instance = new ProductCategoryDaoDatabase(db);
-            }
-
-            return instance;
         }
 
         public void Add(ProductCategory item)

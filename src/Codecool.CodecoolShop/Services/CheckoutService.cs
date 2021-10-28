@@ -15,7 +15,7 @@ namespace Codecool.CodecoolShop.Services
             this.cartDao = cartDao;
         }
 
-        public List<CartItem> GetCartProducts(string key)
+        public IEnumerable<CartItem> GetCartProducts(string key)
         {
             return cartDao.GetProducts(key);
         }
@@ -30,16 +30,16 @@ namespace Codecool.CodecoolShop.Services
             cartDao.EmptyCart(userID);
         }
 
-        public CheckoutViewModel GenerateCheckoutViewModel(string userID)
+        public CheckoutViewModel GenerateCheckoutViewModel(string userId)
         {
-            var cartData = GetCartProducts(userID);
+            var cartData = GetCartProducts(userId);
             var checkoutViewModel = new CheckoutViewModel();
 
-            foreach (var product in cartData)
+            foreach (var item in cartData)
             {
                 var newCheckoutItem = new CheckoutItem();
-                newCheckoutItem.Product = productDao.Get(product.Id);
-                newCheckoutItem.Quantity = product.Quantity;
+                newCheckoutItem.Product = productDao.Get(item.ProductId);
+                newCheckoutItem.Quantity = item.Quantity;
                 checkoutViewModel.CheckoutItems.Add(newCheckoutItem);
             }
 
