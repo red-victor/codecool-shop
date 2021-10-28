@@ -6,22 +6,10 @@ namespace Codecool.CodecoolShop.Daos.Implementations
 {
     public class SupplierDaoDatabase : ISupplierDao
     {
-        private static SupplierDaoDatabase instance = null;
-
         private readonly ApplicationDbContext _db;
-        private SupplierDaoDatabase(ApplicationDbContext db)
+        public SupplierDaoDatabase(ApplicationDbContext db)
         {
             this._db = db;
-        }
-
-        public static SupplierDaoDatabase GetInstance(ApplicationDbContext _db)
-        {
-            if (instance == null)
-            {
-                instance = new SupplierDaoDatabase(_db);
-            }
-
-            return instance;
         }
 
         public void Add(Supplier item)

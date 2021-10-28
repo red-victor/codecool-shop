@@ -7,6 +7,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20211026234016_AddDbTables.cs" />
     <Compile Remove="Migrations\20211026234016_AddDbTables.Designer.cs" />
+    <Compile Remove="Migrations\20211027230933_AddCartsTable.cs" />
+    <Compile Remove="Migrations\20211027230933_AddCartsTable.Designer.cs" />
+    <Compile Remove="Migrations\20211028012634_Test.cs" />
+    <Compile Remove="Migrations\20211028012634_Test.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

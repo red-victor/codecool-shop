@@ -1,4 +1,5 @@
-﻿using Codecool.CodecoolShop.Models;
+﻿using Codecool.CodecoolShop.Daos;
+using Codecool.CodecoolShop.Models;
 using Newtonsoft.Json;
 using Stripe;
 using System;
@@ -10,14 +11,21 @@ namespace Codecool.CodecoolShop.Services
 {
     public class PaymentService
     {
+        private readonly IProductDao productDao;
+
+        public PaymentService(IProductDao productDao)
+        {
+            this.productDao = productDao;
+        }
+
         public int CalculateOrderAmount(CartItem[] items)
         {
-            float sum = 0;
+            decimal sum = 0;
 
             foreach (var item in items)
-                sum += item.Price * item.Quantity;
+                sum += productDao.GetPrice(item.Id) * item.Quantity;
 
-            return (int)((Math.Round(sum * 100f) / 100f) * 100);
+            return (int)Math.Round(sum * 100);
         }
 
         public PaymentIntent GeneratePaymentOptions(PaymentIntentCreateRequest request)

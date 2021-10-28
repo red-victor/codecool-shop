@@ -41,7 +41,7 @@ namespace Codecool.CodecoolShop.Daos.Implementations
             data.Remove(userID);
         }
 
-        public List<CartItem> GetProducts(string userID)
+        public IEnumerable<CartItem> GetProducts(string userID)
         {
             return data[userID];
         }

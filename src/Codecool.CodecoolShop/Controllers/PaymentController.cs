@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Codecool.CodecoolShop.Daos.Implementations;
+using Codecool.CodecoolShop.Data;
+using Microsoft.AspNetCore.Mvc;
 using static Codecool.CodecoolShop.Services.PaymentService;
 
 namespace Codecool.CodecoolShop.Controllers
@@ -7,11 +9,13 @@ namespace Codecool.CodecoolShop.Controllers
     [ApiController]
     public class PaymentController : Controller
     {
+        private readonly IUnitOfWork _unitOfWork;
         public Services.PaymentService PaymentService { get; set; }
 
-        public PaymentController()
+        public PaymentController(IUnitOfWork unitOfWork)
         {
-            PaymentService = new Services.PaymentService();
+            this._unitOfWork = unitOfWork;
+            PaymentService = new Services.PaymentService(_unitOfWork.Products);
         }
 
         [HttpPost]
