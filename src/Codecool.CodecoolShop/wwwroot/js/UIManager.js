@@ -38,7 +38,7 @@ export class UI {
     cartLogic() {
         clearCartBtn.addEventListener("click", () => this.clearCart());
 
-        checkoutCartBtn.addEventListener("click", () => this.checkoutCart());
+        checkoutCartBtn.addEventListener("click", () => this.saveCart());
 
         cartOverlay.addEventListener("click", (event) => {
             if (event.target.classList.contains("transparentBcg"))
@@ -78,11 +78,11 @@ export class UI {
         this.setCartValues();
     }
 
-    async checkoutCart() {
+    async saveCart() {
         var cart = localStorage.getItem("cart");
         if (cart !== '') {
-            var checkoutResponse = await dataHandler.checkoutCart(cart);
-            console.log(await checkoutResponse);
+            var response = await dataHandler.saveCart(cart);
+            console.log(await response);
         } else {
             console.log("Cart empty");
         }

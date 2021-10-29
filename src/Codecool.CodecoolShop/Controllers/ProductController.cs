@@ -108,7 +108,7 @@ namespace Codecool.CodecoolShop.Controllers
 
         [Authorize]
         [HttpPost]
-        [Route("api/cart")]
+        [Route("api/saveCart")]
         public JsonResult CartJSON(string payload)
         {
             var cartList = Util.DeserializeJSON(payload);

@@ -1,10 +1,12 @@
 ﻿@section Scripts
 {
-    <script type="module" src="~/js/checkout.js"></script>
-    <script src="https://js.stripe.com/v3/"></script>
+    @*<script type="module" src="~/js/checkout.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>*@
 }
 
 @model Codecool.CodecoolShop.Models.CheckoutViewModel
+@using Microsoft.Extensions.Options
+@inject IOptions<Codecool.CodecoolShop.Data.StripeSettings> Stripe
 
 <from method="post">
     <br />
@@ -15,7 +17,7 @@
                     <i class="fa fa-shopping-cart"></i> &nbsp; Order summary
                 </div>
                 <div class="col-6 text-right">
-                    <a class="btn btn-outline-info btn-sm">Back to Cart</a>
+                    <a class="btn btn-outline-info btn-sm" asp-controller="Product" asp-action="Cart">Back to Cart</a>
                 </div>
             </div>
 
@@ -114,7 +116,27 @@
                             <p style="font-size: 14px">Estimated arrival Date: @DateTime.Now.AddDays(3).ToShortDateString() - @DateTime.Now.AddDays(7).ToShortDateString()</p>
                         </div>
                         <div class="col-12 col-md-4">
-                            <button type="submit" value="Place Order" class="btn btn-success form-control">Place Order</button>
+
+                            @*@{
+            var orderTotalForStripe = Model.FinalPrice * 100;
+        }
+        <script class="stripe-button"
+                src="https://checkout.stripe.com/checkout.js"
+                data-key="@Stripe.Value.PublishableKey"
+                data-amount="@orderTotalForStripe"
+                data-name="CodecoolShop"
+                data-label="Place order"
+                data-description="Best shop ever"
+                data-locale="Auto"
+                data-allow-remember-me="true"
+                data-image="https://stripe.com/img/documentation/checkout/marketplace.png"></script>*@
+
+
+                            <form action="/create-checkout-session" method="POST">
+                                <button type="submit" value="Place Order" class="btn btn-success form-control">Place Order</button>
+                            </form>
+
+                            
                         </div>
                     </div>
                 </div>
@@ -123,8 +145,8 @@
     </div>
 </from>
 
-<form id="payment-form">
-    <div id="stripe-card-element"><!--Stripe.js injects the Card Element--></div>
+<!--<form id="payment-form">
+    <div id="stripe-card-element">--><!--Stripe.js injects the Card Element--><!--</div>
     <button id="stripe-submit-button">
         <div class="stripe-spinner hidden" id="stripe-spinner"></div>
         <span id="button-text">Pay now</span>
@@ -134,4 +156,4 @@
         Payment succeeded, see the result in your
         <a href="" target="_blank">Stripe dashboard.</a> Refresh the page to pay again.
     </p>
-</form>
+</form>-->

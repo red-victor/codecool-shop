@@ -1,4 +1,5 @@
 ﻿import { UI } from "./UIManager.js";
+import { dataHandler } from "./dataHandler.js";
 import { LocalStorage } from "./localStorageHandler.js";
 
 const ui = new UI();
@@ -38,6 +39,7 @@ function changeTotal() {
 }
 
 $(document).ready(function () {
+    $("#checkout-cart-btn").click(async () => await checkoutCart());
 
     $(".remove").click(function () {
         var el = $(this);
@@ -111,3 +113,13 @@ $(document).ready(function () {
         $(".remove").click();
     });*/
 });
+
+async function checkoutCart() {
+    var cart = localStorage.getItem("cart");
+    if (cart !== '') {
+        var response = await dataHandler.checkoutCart(cart);
+        console.log(await response);
+    } else {
+        console.log("Cart empty");
+    }
+}

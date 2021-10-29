@@ -12,7 +12,7 @@
 
 
 
-    <section id="cart">
+    <section id="cart" class="container">
 
         @foreach (var product in Model.CheckoutItems)
         {
@@ -64,7 +64,7 @@
 
         <div class="right">
             <h1 class="total">Total: <span>177.16</span>$</h1>
-            <a class="checkout-btn" asp-controller="Product" asp-action="Checkout">Checkout</a>
+            <a class="checkout-btn" id="checkout-cart-btn" asp-controller="Product" asp-action="Checkout">Checkout</a>
         </div>
 
     </div>
