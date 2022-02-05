@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Codecool.CodecoolShop.Models
 {
@@ -7,6 +8,7 @@ namespace Codecool.CodecoolShop.Models
         [Required]
         public string Currency { get; set; }
         [Required]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal DefaultPrice { get; set; }
         [Required]
         public ProductCategory ProductCategory { get; set; }
